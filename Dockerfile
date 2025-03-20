@@ -6,7 +6,13 @@ WORKDIR /opt/service
 
 COPY /target/*.jar /opt/service/app.jar
 
+COPY /src/main/resources /opt/service/resources_default
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
 EXPOSE $APPLICATION_PORT
 
 RUN chgrp -R 0 ./ && chmod -R g=u ./
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/entrypoint.sh"]
